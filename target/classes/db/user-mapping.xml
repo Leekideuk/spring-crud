@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  mysql db, table은 대소문자 구분함 -->
+<mapper namespace="UserDAO">
+	<resultMap type="user" id="userResult">
+		<id property="userId" column="user_id"/>
+		<result property="password" column="password"/>
+		<result property="regDate" column="regDate"/>
+		<result property="role" column="role"/>
+		<result property="email" column="email"/>
+		<result property="phone1" column="phone1"/>
+		<result property="phone2" column="phone2"/>
+		<result property="phone3" column="phone3"/>
+	</resultMap>
+	
+	<insert id="insertUser">
+		INSERT INTO user_tb(USER_ID, PASSWORD, email, phone1, phone2, phone3) 
+		VALUES(#{userId}, #{password}, #{email}, #{phone1}, #{phone2}, #{phone3})
+	</insert>
+	
+	<select id="getLoginResult" resultMap="userResult">
+		select user_id, regDate, email, phone1, phone2, phone3 from user_tb where user_id = #{userId} and password = #{password}
+	</select>
+	
+	<delete id="deleteUser">
+		delete from user_tb WHERE USER_ID = #{userId}
+	</delete>
+	
+	<update id="updateUser">
+		update user_tb set password=#{password}, email=#{email}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3} 
+		where user_id=#{userId}
+	</update>
+	
+	<select id="getUser" resultMap="userResult">
+		select user_id, regDate, email, phone1, phone2, phone3 FROM user_tb 
+		where user_id = #{userId}
+	</select>
+	
+	<!-- userId 중복 확인 -->
+	<select id="existUserId" resultType="int">
+		select count(*) from user_tb where user_id = #{userId}
+	</select>
+	
+	
+	<select id="getUserList" resultMap="userResult">
+		SELECT * FROM user_tb
+	</select>
+</mapper>
