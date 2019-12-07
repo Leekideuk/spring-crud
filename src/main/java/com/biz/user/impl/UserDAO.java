@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.biz.user.UserVO;
 
-@Repository
+@Repository("userDAO")
 public class UserDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
@@ -46,7 +46,7 @@ public class UserDAO {
 	// userId 중복 확인
 	public int existUserId(String userId){
 		System.out.println("===> userDAO.existUerId");
-		return (int) mybatis.selectOne("UserDAO.existUserId", userId);
+		return mybatis.selectOne("UserDAO.existUserId", userId);
 	}
 	
 	

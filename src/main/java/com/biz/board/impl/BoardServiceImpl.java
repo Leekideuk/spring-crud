@@ -72,7 +72,6 @@ public class BoardServiceImpl implements BoardService{
 		List<FileVO> fileList = boardDAO.getBoardFileList(vo.getBoardId());
 		boardDAO.deleteBoard(vo);
 		for(FileVO file : fileList){
-			System.out.println(file);
 			FileUtil.deleteFile(file);
 		}
 	}
