@@ -18,6 +18,7 @@ import com.biz.user.UserVO;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
 	// 메인화면
 	@RequestMapping("/main.do")
 	public String mainView(){
@@ -34,9 +35,7 @@ public class UserController {
 	
 	@RequestMapping(value="/signup.do", method=RequestMethod.POST)
 	public String signUp(@Valid @ModelAttribute("user") UserVO vo, BindingResult brs){
-		if(brs.hasErrors()){
-			return "user/signup.jsp";
-		}
+		if(brs.hasErrors()){ return "user/signup.jsp"; }
 		userService.insertUser(vo);
 		return "redirect:main.do";
 	}

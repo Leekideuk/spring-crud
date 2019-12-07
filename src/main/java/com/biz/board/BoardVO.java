@@ -1,16 +1,23 @@
 package com.biz.board;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class BoardVO {
 	private int boardId;
 	private String userId;
+	@NotBlank
 	private String title;
+	@NotBlank
 	private String content;
 	private Date regDate;
 	private int cnt;
-	private String searchCondition;
-	private String searchKeyword;
+	private List<MultipartFile> uploadFile;
+	
 	public int getBoardId() {
 		return boardId;
 	}
@@ -47,22 +54,19 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	public String getSearchCondition() {
-		return searchCondition;
+	public List<MultipartFile> getUploadFile() {
+		return uploadFile;
 	}
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
+	public void setUploadFile(List<MultipartFile> uploadFile) {
+		this.uploadFile = uploadFile;
 	}
 	
 	@Override
-	public String toString(){
-		return "BoardVO [boardId=" + boardId + ", userId=" + userId +", title=" + title + "]";
+	public String toString() {
+		return "BoardVO [boardId=" + boardId + ", userId=" + userId + ", title=" + title + ", content=" + content
+				+ ", regDate=" + regDate + ", cnt=" + cnt + ", uploadFile=" + uploadFile + "]";
 	}
+	
+	
 	
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
 
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
 		if(userDAO.existUserId(userId) == 0){ return false; }	
 		return true;
 	}
+	
+	
+	
 	
 	@Override
 	public List<UserVO> getUserList(UserVO vo) {

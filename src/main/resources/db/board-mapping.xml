@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  mysql db, table은 대소문자 구분함 -->
+<mapper namespace="BoardDAO">
+	<resultMap type="board" id="boardResult">
+		<id property="boardId"			column="board_id"/>
+		<result property="userId"		column="user_id"/>
+		<result property="title"		column="title"/>
+		<result property="content"		column="content"/>
+		<result property="regDate"		column="regDate"/>
+		<result property="cnt"			column="cnt"/>
+	</resultMap>
+	
+	<resultMap type="file" id="fileResult">
+		<id property="fileId"			column="board_file_id"/>
+		<result property="parentId" 	column="board_id"/>
+		<result property="fileName" 	column="filename"/>
+		<result property="realName" 	column="realname"/>
+		<result property="fileSize" 	column="filesize"/>
+		<result property="path"			column="path"/>
+	</resultMap>
+	
+	<insert id="insertBoard" parameterType="board">
+		<selectKey resultType="int" keyProperty="boardId" order="AFTER">
+			select max(board_id) from board_tb
+		</selectKey>
+		insert into board_tb(user_id, title, content)
+		values(#{userId}, #{title}, #{content})
+	</insert>
+	
+	<insert id="insertBoardFile" parameterType="file">
+		insert into board_file_tb(board_id, filename, realname, filesize, path)
+		values(#{parentId}, #{fileName}, #{realName}, #{fileSize}, #{path})
+	</insert>
+
+	<select id="getBoardList"  resultMap="boardResult">
+		select * from board_tb 
+		where 
+			<if test="searchCondition == 'TITLE'">
+				title like concat('%',#{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 'CONTENT'">
+				content like concat('%',#{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 'USERID'">
+				user_id like concat('%',#{searchKeyword},'%')
+			</if>
+		order by board_id desc
+		limit #{criteria.pageStart}, #{criteria.pageScale}
+	</select>
+	
+	<select id="getBoard" parameterType="int" resultMap="boardResult">
+		select * from board_tb
+		where board_id = #{boardId}
+	</select>
+	
+	<select id="getBoardFileList" parameterType="int" resultMap="fileResult">
+		select * from board_file_tb
+		where board_id = #{parentId}
+	</select>
+	
+	<select id="getBoardFile" parameterType="int" resultMap="fileResult">
+		select * from board_file_tb
+		where board_file_id = #{fileId}
+	</select>
+	
+	<update id="increaseCnt" parameterType="int">
+		update board_tb set cnt = cnt+1 where board_id = #{boardId}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from board_tb where board_id = #{boardId}
+	</delete>
+	
+	<update id="updateBoard" parameterType="board">
+		update board_tb set title=#{title}, content=#{content} 
+		where board_id=#{boardId}
+	</update>
+	
+	<delete id="deleteBoardFile" parameterType="int">
+		delete from board_file_tb where board_file_id = #{fileId}
+	</delete>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from board_tb
+	</select>
+	
+	<select id="getSearchTotalCount" resultType="int">
+		select count(*) from board_tb
+		where 
+			<if test="searchCondition == 'TITLE'">
+				title like concat('%',#{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 'CONTENT'">
+				content like concat('%',#{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 'USERID'">
+				user_id like concat('%',#{searchKeyword},'%')
+			</if>
+		order by board_id desc
+	</select>
+</mapper>

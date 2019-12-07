@@ -2,7 +2,7 @@ package com.biz.user;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import com.common.annotation.UserIdUnique;
@@ -10,7 +10,7 @@ import com.common.annotation.UserIdUnique;
 public class UserVO {
 	@UserIdUnique
 	private String userId;
-	@NotEmpty
+	@NotBlank
 	private String password;
 	private Date regDate;
 	private int role;
