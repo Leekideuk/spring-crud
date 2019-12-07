@@ -14,13 +14,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	
-	
-	
-	
 	<dependencies>
-	
-		
-	
 		<!-- Jackson2. json 데이터로 변환. -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
