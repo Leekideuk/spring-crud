@@ -1,12 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>글 등록2</title>
-
+<title>글 등록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 	//파일 리스트 번호
@@ -162,31 +160,31 @@
 
 </head>
 <body>
-	<h1>글 등록</h1>
-	<hr>
-	<form id="uploadForm" action="insertBoard2.do" method="post" enctype="multipart/form-data">
-		<input name="userId" type="hidden" value="${sessionScope.user.userId }"/>
-		<table>
-			<tr>
-				<td>제목</td>
-				<td><input type="text" name="title"/></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><textarea name="content" rows="15" cols="50" ></textarea></td>
-			</tr>
-			
-		</table>
-		<div id="fileTableTbody">
+	<%@ include file="/header.jsp" %>
+	<div class="container" style="padding-top: 10px;">
+	<form id="uploadForm" action="insertBoard.do" method="post" enctype="multipart/form-data" class="form-horizontal">
+		<div class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-md-8 col-sm-8 col-xs-8">
+			<input name="userId" type="hidden" value="${sessionScope.user.userId }"/>
+			<div class="form-group"	>
+				<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요."/>
+			</div>
+			<div class="form-group">
+				<textarea name="content" rows="15" class="form-control" placeholder="내용을 입력하세요"></textarea>
+			</div>
+			<div id="fileTableTbody">
 				<div id="dropZone" style="height:100px;">
 						파일을 드래그 하세요
 				</div>
+			</div>
+			<div class="form-group" align="center">
+				<input type="button" value="등록" class="btn btn-default btn-block" onclick="uploadFile(); return false;"/>
+			</div>
 		</div>
-		
-		<input type="button" value="등록" onclick="uploadFile(); return false;"/>
 	</form>
-	<br><br><br><br><br><br>
-	<a href="#" onclick="uploadFile(); return false;" class="btn bg_01">파일 업로드</a>
+	</div>
+	
+
+	
 	
 </body>
 </html>

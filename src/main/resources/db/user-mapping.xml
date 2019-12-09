@@ -16,12 +16,12 @@
 	</resultMap>
 	
 	<insert id="insertUser">
-		INSERT INTO user_tb(USER_ID, PASSWORD, email, phone1, phone2, phone3) 
-		VALUES(#{userId}, #{password}, #{email}, #{phone1}, #{phone2}, #{phone3})
+		INSERT INTO user_tb(USER_ID, PASSWORD, email, phone) 
+		VALUES(#{userId}, #{password}, #{email}, #{phone})
 	</insert>
 	
 	<select id="getLoginResult" resultMap="userResult">
-		select user_id, regDate, email, phone1, phone2, phone3 from user_tb where user_id = #{userId} and password = #{password}
+		select user_id, regDate, email, phone from user_tb where user_id = #{userId} and password = #{password}
 	</select>
 	
 	<delete id="deleteUser">
@@ -29,12 +29,12 @@
 	</delete>
 	
 	<update id="updateUser">
-		update user_tb set password=#{password}, email=#{email}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3} 
+		update user_tb set password=#{password}, email=#{email}, phone=#{phone} 
 		where user_id=#{userId}
 	</update>
 	
 	<select id="getUser" resultMap="userResult">
-		select user_id, regDate, email, phone1, phone2, phone3 FROM user_tb 
+		select user_id, regDate, email, phone FROM user_tb 
 		where user_id = #{userId}
 	</select>
 	

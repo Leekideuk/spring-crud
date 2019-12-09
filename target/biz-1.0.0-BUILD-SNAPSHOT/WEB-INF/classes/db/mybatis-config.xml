@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- Alias 설정 -->
+	<typeAliases>
+		<typeAlias alias="user" type="com.biz.user.UserVO"/>
+		<typeAlias alias="board" type="com.biz.board.BoardVO"/>
+		<typeAlias alias="file" type="com.common.vo.FileVO"/>
+		<typeAlias alias="search" type="com.common.vo.SearchVO"/>
+	</typeAliases>
+	
+	<!-- Sql Mapper 설정 -->
+	<mappers>
+		<mapper resource="db/user-mapping.xml"/>
+		<mapper resource="db/board-mapping.xml"/>
+	</mappers>
+</configuration>

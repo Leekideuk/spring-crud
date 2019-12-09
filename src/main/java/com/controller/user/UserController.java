@@ -29,7 +29,7 @@ public class UserController {
 	// 회원가입
 	@RequestMapping(value="/signup.do", method=RequestMethod.GET)
 	public String signupView(HttpSession session, @ModelAttribute("user") UserVO vo){
-		if( session.getAttribute("user") != null) { return "redirect:main.do"; }	// 로그인 상태에서 회원가입 불가.
+		if( session.getAttribute("user") != null) { return "redirect:getBoardList.do"; }	// 로그인 상태에서 회원가입 불가.
 		return "user/signup.jsp";
 	}
 	
@@ -37,13 +37,13 @@ public class UserController {
 	public String signUp(@Valid @ModelAttribute("user") UserVO vo, BindingResult brs){
 		if(brs.hasErrors()){ return "user/signup.jsp"; }
 		userService.insertUser(vo);
-		return "redirect:main.do";
+		return "redirect:getBoardList.do";
 	}
 	
 	// 로그인
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(HttpSession session){
-		if( session.getAttribute("user") != null) { return "redirect:main.do"; }	// 로그인 상태에서 로그인 불가.
+		if( session.getAttribute("user") != null) { return "redirect:getBoardList.do"; }	// 로그인 상태에서 로그인 불가.
 		return "user/login.jsp";
 	}
 	
@@ -52,20 +52,20 @@ public class UserController {
 		UserVO user = userService.login(vo);
 		if(user == null){ return "user/login.jsp"; }
 		session.setAttribute("user", user);
-		return "redirect:main.do";
+		return "redirect:getBoardList.do";
 	}
 	
 	// 로그아웃
 	@RequestMapping("/logout.do")
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:main.do";
+		return "redirect:getBoardList.do";
 	}
 	
 	// mypage
 	@RequestMapping("/mypage.do")
 	public String mypageView(HttpSession session, HttpServletResponse response){
-		if( session.getAttribute("user") == null) { return "redirect:main.do"; }	// 로그아웃 상태에서 마이페이지 이동 불가.
+		if( session.getAttribute("user") == null) { return "redirect:getBoardList.do"; }	// 로그아웃 상태에서 마이페이지 이동 불가.
 		// a 로그인 -> a mypage -> a 로그아웃 -> b 로그인 -> 뒤로가기 -> a mypage -> b가 a정보 변경가능.
 		// 캐시 사용 안 하기.
 		// @@@ WebContentInterceptor로 바꾸기.
@@ -76,16 +76,16 @@ public class UserController {
 	// 회원탈퇴
 	@RequestMapping("/deleteUser.do")
 	public String deleteUser(HttpSession session){
-		if( session.getAttribute("user") == null) { return "redirect:main.do"; }	// 로그아웃 상태에서 회원탈퇴 불가.
+		if( session.getAttribute("user") == null) { return "redirect:getBoardList.do"; }	// 로그아웃 상태에서 회원탈퇴 불가.
 		userService.deleteUser((UserVO) session.getAttribute("user"));
 		session.invalidate();
-		return "redirect:main.do";
+		return "redirect:getBoardList.do";
 	}
 	
 	// 회원정보수정
 	@RequestMapping("/updateUser.do")
 	public String updateUser(UserVO vo, HttpSession session){
-		if( session.getAttribute("user") == null) { return "redirect:main.do"; }	// 로그아웃 상태에서 회원수정 불가.
+		if( session.getAttribute("user") == null) { return "redirect:getBoardList.do"; }	// 로그아웃 상태에서 회원수정 불가.
 		session.setAttribute("user", userService.updateUser(vo));
 		return "redirect:mypage.do";
 	}

@@ -14,7 +14,7 @@ import com.common.vo.SearchVO;
 
 public interface BoardService {
 	// 글 등록
-	void insertBoard(BoardVO board, String basePath);
+	Integer insertBoard(BoardVO board, String basePath);
 	
 	// 글 목록 조회
 	List<BoardVO> getBoardList(SearchVO search, Criteria criteria);

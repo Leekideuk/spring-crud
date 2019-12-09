@@ -26,10 +26,10 @@ public class UserDAO {
 	}
 	
 	// 회원 탈퇴
-		public void deleteUser(UserVO vo){
-			System.out.println("===> UserDAO.deleteUser()");
-			mybatis.delete("UserDAO.deleteUser", vo);
-		}
+	public void deleteUser(UserVO vo){
+		System.out.println("===> UserDAO.deleteUser()");
+		mybatis.delete("UserDAO.deleteUser", vo);
+	}
 	
 	// 회원 정보 수정
 	public void updateUser(UserVO vo){

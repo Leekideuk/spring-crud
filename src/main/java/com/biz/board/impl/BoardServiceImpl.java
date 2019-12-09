@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 글 등록. 트랜잭션 처리
 	@Override
-	public void insertBoard(BoardVO board, String basePath) {
+	public Integer insertBoard(BoardVO board, String basePath) {
 		// 파일 업로드 처리.
 		String path = FileUtil.getUploadPath(basePath);
 		List<FileVO> fileList = FileUtil.saveAllFiles(path ,board.getUploadFile());
@@ -36,12 +36,14 @@ public class BoardServiceImpl implements BoardService{
 				file.setParentId(boardId);
 				boardDAO.insertBoardFile(file);
 			}
+			return boardId;
 		}catch(Exception e){
 			System.out.println("BoardServiceImpl.insertBoard() : " + e);
 			// 롤백 시 서버에 저장한 파일 삭제.
 			for (FileVO file : fileList){
 				FileUtil.deleteFile(file);
-			}	
+			}
+			return null;
 		}
 	}
 	
@@ -67,23 +69,6 @@ public class BoardServiceImpl implements BoardService{
 		return map;
 	}
 	
-	// 글 삭제
-	public void deleteBoard(BoardVO vo){
-		List<FileVO> fileList = boardDAO.getBoardFileList(vo.getBoardId());
-		boardDAO.deleteBoard(vo);
-		for(FileVO file : fileList){
-			FileUtil.deleteFile(file);
-		}
-	}
-	
-	// 파일 다운로드
-	public ResponseEntity<byte[]> downloadFile(HttpServletRequest request, HttpServletResponse response, FileVO vo) {
-		FileVO file = boardDAO.getBoardFile(vo.getFileId());
-		// 브라우저 별 파일이름 인코딩 및 응답 헤더 설정
-		FileUtil.setResponseHeader(request, response, file);
-		return new ResponseEntity<byte[]>(FileUtil.fileToByteArray(file), HttpStatus.OK);
-	}
-	
 	// 글 수정. 트랜잭션 처리
 	public void updateBoard(Map<String, Object> map){
 		try{
@@ -106,6 +91,25 @@ public class BoardServiceImpl implements BoardService{
 			System.out.println("BoardServiceImpl.updateBoard() : " + e);
 		}
 	}
+	
+	// 글 삭제
+	public void deleteBoard(BoardVO vo){
+		List<FileVO> fileList = boardDAO.getBoardFileList(vo.getBoardId());
+		boardDAO.deleteBoard(vo);
+		for(FileVO file : fileList){
+			FileUtil.deleteFile(file);
+		}
+	}
+	
+	// 파일 다운로드
+	public ResponseEntity<byte[]> downloadFile(HttpServletRequest request, HttpServletResponse response, FileVO vo) {
+		FileVO file = boardDAO.getBoardFile(vo.getFileId());
+		// 브라우저 별 파일이름 인코딩 및 응답 헤더 설정
+		FileUtil.setResponseHeader(request, response, file);
+		return new ResponseEntity<byte[]>(FileUtil.fileToByteArray(file), HttpStatus.OK);
+	}
+	
+	
 	
 	// 전체 데이터 수
 	public int getTotalCount(){

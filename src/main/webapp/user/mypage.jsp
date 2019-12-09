@@ -1,44 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>mypage</title>
+<title>마이페이지</title>
 </head>
 <body>
-	<h1>mypage</h1>
-	<hr>
-	<form action="updateUser.do" method="post">
-		<table border="1">
-			<tr>
-				<td>아이디</td>
-				<td>${sessionScope.user.userId }<input type="hidden" name="userId" value="${user.userId }"></td>
-			</tr>
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" name="password"></td>
-			</tr>
-			<tr>
-				<td>이메일</td>
-				<td><input type="email" name="email" value="${user.email }"></td>
-			</tr>
-			<tr>
-				<td>핸드폰</td>
-				<td><input type="tel" name="phone1" value="${user.phone1 }"> - 
-				<input type="tel" name="phone2" value="${user.phone2 }"> - 
-				<input type="tel" name="phone3" value="${user.phone3 }"></td>
-			</tr>
-			<tr>
-				<td>가입일</td>
-				<td>${user.regDate }</td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="회원정보수정"><input type="reset" value="취소"></td>
-			</tr>
-		</table>
+	<%@ include file="/header.jsp" %>
+	<div class="container">
+	<form action="updateUser.do" method="post" class="form-horizontal">
+		<div class="col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4">
+			<div class="form-group"	>
+				<p>아이디</p>
+				<span class="form-control">${sessionScope.user.userId }</span>
+				<input type="hidden" name="userId" value="${user.userId }">
+			</div>
+			<div class="form-group"	>
+				<p>비밀번호</p>
+				<input type="password" name="password" class="form-control">
+			</div>
+			<div class="form-group"	>
+				<p>이메일</p>
+				<input type="email" name="email" value="${user.email }" class="form-control">
+			</div>
+			<div class="form-group"	>
+				<p>핸드폰</p>
+				<input type="tel" name="phone" value="${user.phone }" class="form-control">
+			</div>
+			<div class="form-group"	>
+				<p>가입일</p>
+				<span class="form-control"><fmt:formatDate value="${user.regDate }" pattern="yyyy-MM-dd HH:mm"/></span>
+			</div>
+			<div class="form-group" align="center">
+				<input type="submit" class="btn btn-default" value="수정">
+				<input type="reset" class="btn btn-default" value="취소">
+				<input type="button" class="btn btn-default" onclick="location.href='deleteUser.do'" value="탈퇴"/>
+			</div>
+		</div>
 	</form>
-	<h2><a href="main.do">메인페이지</a></h2>
-	<h2><a href="deleteUser.do">회원탈퇴</a></h2>
+	</div>
 </body>
 </html>

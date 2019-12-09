@@ -52,8 +52,6 @@ public class BoardController {
 	@ResponseBody
 	public ResponseEntity<Map<String,Object>> insertBoard(HttpSession session, @Valid @ModelAttribute BoardVO vo, 
 			BindingResult brs) throws Exception{
-		System.out.println(vo);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 로그아웃 상태에서 글 등록 불가.
@@ -71,8 +69,8 @@ public class BoardController {
 		    return new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
 		}
 		
-		boardService.insertBoard(vo, basePath);
-		map.put("location", "getBoardList.do");
+		Integer boardId = boardService.insertBoard(vo, basePath);
+		map.put("location", "getBoard.do?boardId="+boardId);
 		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 	}
 	
@@ -93,7 +91,7 @@ public class BoardController {
 		if(search.getSearchKeyword() == null) search.setSearchKeyword("");
 
 		int count = boardService.getSearchTotalCount(search);		
-		Criteria criteria = new BoardCriteria(curPage, 10, 11);
+		Criteria criteria = new BoardCriteria(curPage, 5, 5);
 		PageMaker pageMaker = new PageMaker(count, criteria);
 		
 		model.addAttribute("boardList", boardService.getBoardList(search, criteria));
@@ -118,7 +116,6 @@ public class BoardController {
 		return "board/updateBoard.jsp";
 	}
 	
-	// 파일 삭제
 	@ResponseBody
 	@RequestMapping(value="updateBoard.do", method=RequestMethod.POST)
 	public ResponseEntity<String> updateBoard(@RequestBody Map<String, Object> map){

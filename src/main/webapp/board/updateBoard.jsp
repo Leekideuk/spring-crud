@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +43,8 @@ $(document).ready(function(){
 			dataType : "text",
 			contentType : "application/json; charset=utf-8",
 			success : function(result){
-				console.log(result);
+				alert("수정완료");
+				location.href="getBoard.do?boardId=${boardMap['board'].boardId }"
 			}
 		});
 	});
@@ -52,53 +53,47 @@ $(document).ready(function(){
 </head>
 
 <body>
-	<h1>글 수정</h1>
-	<hr>
-	<h1 onclick="aaa('${boardMap['boardFileList']}')">테스트</h1>
+	<%@ include file="/header.jsp" %>
+	<div class="container" style="padding-top: 10px;">
 	<form id="updateForm">
-		<input name="boardId" type="hidden" value="${boardMap['board'].boardId }"/>
-		<table border="1">
-			<tr>
-				<td>제목</td>
-				<td><input name="title" type="text" value="${boardMap['board'].title }"/></td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>${boardMap['board'].userId}</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td><textarea name="content" rows="10" cols="40">${boardMap['board'].content }</textarea></td>
-			</tr>
-			<tr>
-				<td>등록일</td>
-				<td>${boardMap['board'].regDate }</td>
-			</tr>
-			<tr>
-				<td>조회수</td>
-				<td>${boardMap['board'].cnt }</td>
-			</tr>
-			<tr>
-				<td>첨부</td>
-				<td id="fileList">
-					<c:forEach var="file" items="${boardMap['boardFileList']}"> 
-                        <div>
-                        	${file.fileName}${file.sizeToString()}
-                        	<a href="#" data-src=${file.fileId }>삭제</a>
-                        </div>
-                    </c:forEach>       
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input id="submitBtn" type="button" value="수정"/></td>
-			</tr>
-		</table>
-		
+		<div class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-md-8 col-sm-8 col-xs-8">
+			<input name="boardId" type="hidden" value="${boardMap['board'].boardId }"/>
+			<ul class="list-inline" style="padding-top:5px;">
+				<li><strong>${boardMap['board'].userId}</strong></li>
+				<li><fmt:formatDate value="${boardMap['board'].regDate }" pattern="yyyy-MM-dd HH:mm"/></li>
+				<li>조회 ${boardMap['board'].cnt }</li>
+			</ul>
+			<div class="form-group"	>
+				<input name="title" type="text" value="${boardMap['board'].title }" class="form-control" placeholder="제목을 입력하세요."/>
+			</div>
+			<div class="form-group"	>
+				<textarea name="content" rows="15" class="form-control" placeholder="내용을 입력하세요">${boardMap['board'].content }</textarea>
+			</div>
+			<div class="form-group"	>
+			
+			</div>
+
+
+				
+
+
+			<span>첨부</span>
+			<div id="fileList">
+				<c:forEach var="file" items="${boardMap['boardFileList']}"> 
+					<div>
+						${file.fileName}${file.sizeToString()}
+						<a href="#" data-src=${file.fileId }>삭제</a>
+					</div>
+				</c:forEach>       
+			</div>
+			<ul class="list-inline navbar-right">
+				<li><input type="button" id="submitBtn" class="btn btn-default" value="수정"/></li>
+				<li><input type="button" class="btn btn-default" onclick="location.href='deleteBoard.do?boardId=${boardMap['board'].boardId }'" value="삭제"/></li>
+			</ul>
+		</div>
 	</form>
-	<hr>
-	<a href="insertBoard.do">글 등록</a>&nbsp;&nbsp;&nbsp;
-	<a href="deleteBoard.do?boardId=${boardMap['board'].boardId }">글 삭제</a>&nbsp;&nbsp;&nbsp;
-	<a href="getBoardList.do">글 목록</a>
+	</div>
+	
 
 </body>
 </html>

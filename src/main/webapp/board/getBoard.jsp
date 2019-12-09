@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,44 +8,30 @@
 <title>글 상세</title>
 </head>
 
-
 <body>
-	<h1>글 상세</h1>
-	<hr>
-	<table border="1">
-		<tr>
-			<td>제목</td>
-			<td>${boardMap['board'].title }</td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td>${boardMap['board'].userId}</td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td height="100">${boardMap['board'].content }</td>
-		</tr>
-		<tr>
-			<td>등록일</td>
-			<td>${boardMap['board'].regDate }</td>
-		</tr>
-		<tr>
-			<td>조회수</td>
-			<td>${boardMap['board'].cnt }</td>
-		</tr>
-		<tr>
-			<td>첨부</td>
-			<td>
-				<c:forEach var="file" items="${boardMap['boardFileList']}" varStatus="status">
-					<a href="fileDownload.do?fileId=${file.fileId }">${file.fileName}</a>${file.sizeToString()} <br/>
-				</c:forEach>       
-			</td>
-	</table>
-	<hr>
-	<a href="insertBoard.do">새 글 등록</a>&nbsp;&nbsp;&nbsp;
-	<a href="updateBoard.do?boardId=${boardMap['board'].boardId }">글 수정</a>&nbsp;&nbsp;&nbsp;
-	<a href="deleteBoard.do?boardId=${boardMap['board'].boardId }">글 삭제</a>&nbsp;&nbsp;&nbsp;
-	<a href="getBoardList.do">글 목록</a>
+	<%@ include file="/header.jsp" %>
+	<div class="container">
+		<div class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-md-8 col-sm-8 col-xs-8">
+			<ul class="list-inline" style="padding-top:5px;">
+				<li><strong>${boardMap['board'].userId}</strong></li>
+				<li><fmt:formatDate value="${boardMap['board'].regDate }" pattern="yyyy-MM-dd HH:mm"/></li>
+				<li>조회 ${boardMap['board'].cnt }</li>
+			</ul>
+			<pre>${boardMap['board'].title }</pre>
+			<pre>${boardMap['board'].content }</pre>
+			
+		
+		
+			<span>첨부</span>
+			<c:forEach var="file" items="${boardMap['boardFileList']}" varStatus="status">
+				<div><a href="fileDownload.do?fileId=${file.fileId }">${file.fileName}</a>${file.sizeToString()}</div>
+			</c:forEach>       
+			<ul class="list-inline navbar-right">
+				<li><input type="button" class="btn btn-default" onclick="location.href='updateBoard.do?boardId=${boardMap['board'].boardId }'" value="수정"/></li>
+				<li><input type="button" class="btn btn-default" onclick="location.href='deleteBoard.do?boardId=${boardMap['board'].boardId }'" value="삭제"/></li>
+			</ul>
+		</div>
+	</div>
 
 </body>
 </html>
