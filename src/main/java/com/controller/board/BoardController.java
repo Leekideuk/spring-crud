@@ -25,10 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.biz.board.BoardCriteria;
 import com.biz.board.BoardService;
 import com.biz.board.BoardVO;
-import com.common.paging.Criteria;
 import com.common.paging.PageMaker;
 import com.common.vo.FileVO;
 import com.common.vo.SearchVO;
@@ -41,6 +39,8 @@ public class BoardController {
 	private MessageSource messageSource;
 	@Resource(name="basePath")
 	String basePath;
+	@Autowired
+	private BoardCriteria boardCriteria;
 	
 	// 글 등록
 	@RequestMapping(value="/insertBoard.do", method=RequestMethod.GET)
@@ -90,17 +90,16 @@ public class BoardController {
 		if(search.getSearchCondition() == null) search.setSearchCondition("TITLE");
 		if(search.getSearchKeyword() == null) search.setSearchKeyword("");
 
-		int count = boardService.getSearchTotalCount(search);		
-		Criteria criteria = new BoardCriteria(curPage, 5, 5);
-		PageMaker pageMaker = new PageMaker(count, criteria);
+		int count = boardService.getSearchTotalCount(search);
+		boardCriteria.setCurPage(curPage);
+		PageMaker pageMaker = new PageMaker(count, boardCriteria);
 		
-		model.addAttribute("boardList", boardService.getBoardList(search, criteria));
+		model.addAttribute("boardList", boardService.getBoardList(search, boardCriteria));
 		model.addAttribute("searchCondition", search.getSearchCondition());	// 검색 후 <option>의 selected 사용.
 		model.addAttribute("searchKeyword", search.getSearchKeyword());	// 검색 후	serchKeyword 유지.
 		model.addAttribute("paging", pageMaker);
 		return "board/getBoardList.jsp";	
 	}
-	
 	
 	// 글 상세 조회
 	@RequestMapping(value="/getBoard.do")
@@ -136,5 +135,6 @@ public class BoardController {
 	public  ResponseEntity<byte[]>  fileDownload(HttpServletRequest request,HttpServletResponse response,FileVO vo) {
 	   	return boardService.downloadFile(request, response, vo);
 	}
+	
 	
 }

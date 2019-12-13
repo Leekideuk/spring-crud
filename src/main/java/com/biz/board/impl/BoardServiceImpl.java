@@ -109,15 +109,13 @@ public class BoardServiceImpl implements BoardService{
 		return new ResponseEntity<byte[]>(FileUtil.fileToByteArray(file), HttpStatus.OK);
 	}
 	
-	
+	// 검색 후 전체 데이터 수
+	public int getSearchTotalCount(SearchVO search){
+		return boardDAO.getSearchTotalCount(search);
+	}
 	
 	// 전체 데이터 수
 	public int getTotalCount(){
 		return boardDAO.getTotalCount();
-	}
-	
-	// 검색 후 전체 데이터 수
-	public int getSearchTotalCount(SearchVO search){
-		return boardDAO.getSearchTotalCount(search);
 	}
 }

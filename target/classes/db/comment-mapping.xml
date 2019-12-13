@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommentDAO">
+	<resultMap type="comment" id="commentResult">
+		<id property="commentId" column="comment_id" />
+		<result property="boardId" column="board_id" />
+		<result property="userId" column="user_id" />
+		<result property="content" column="content" />
+		<result property="regDate" column="regdate" />
+		<result property="parentId" column="parent_id" />
+		<result property="order" column="order_c" />
+		<result property="depth" column="depth" />
+		<result property="deleteFlag" column="delete_flag" />
+	</resultMap>
+
+<select id="getCommentList" resultMap="commentResult">
+	select * from comment_tb
+	where board_id = #{boardId}
+	order by order_c
+	limit #{criteria.pageStart}, #{criteria.pageScale}
+</select>
+
+<select id="getTotalCountInBoard" resultType="int">
+	select count(*) from comment_tb where board_id = #{boardId}
+</select>
+
+<insert id="insertComment">
+	insert into comment_tb (board_id, user_id, content, parent_id, order_c, depth)
+						values(#{boardId}, #{userId}, #{content}, #{parentId}, #{order}, #{depth});
+</insert>
+
+<select id="getMaxOrder" resultType="int">
+	select ifnull(max(order_c),0) from comment_tb
+	where board_id = #{boardId}
+</select>
+
+<select id="getMaxOrderOfSubtree" resultType="int">
+	select max(order_c)
+	from(
+		select * from comment_tb 
+		where board_id = #{boardId}
+		) products_sorted,
+		(
+			select @pv := #{commentId}
+		) initailisation
+		<!-- 현재 댓글도 포함해서 출력, find_in_set(comment_id, @pv) > 0 추가.-->
+		where ( find_in_set(parent_id, @pv) > 0 or find_in_set(comment_id, @pv) > 0 )
+		and @pv := concat(@pv, ',', comment_id);
+</select>
+
+<select id="getComment" resultMap="commentResult">
+	select * from comment_tb
+	where comment_id = #{commentId};
+</select>
+
+<update id="updateOrder">
+	update comment_tb set order_c = order_c+1 where board_id = #{boardId} and order_c > #{order}
+</update>
+
+<update id="setDeleteFlagTrue">
+	update comment_tb set delete_flag = true where comment_id = #{commentId}
+</update>
+</mapper>

@@ -83,17 +83,15 @@ public class BoardDAO {
 		mybatis.delete("BoardDAO.deleteBoardFile", fileId);
 	}
 	
-	// 전체 데이터 수
-	public int getTotalCount(){
-		System.out.println("===>getTotalCount()");
-		return mybatis.selectOne("BoardDAO.getTotalCount");
-	}
-	
 	// 검색 후 전체 데이터 수
 	public int getSearchTotalCount(SearchVO search){
 		return mybatis.selectOne("BoardDAO.getSearchTotalCount", search);
 	}
 	
-	
+	// 전체 데이터 수
+	public int getTotalCount(){
+		System.out.println("===>BoardDAO.getTotalCount()");
+		return mybatis.selectOne("BoardDAO.getTotalCount");
+	}
 	
 }

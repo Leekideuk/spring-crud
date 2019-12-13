@@ -69,13 +69,6 @@ $(document).ready(function(){
 			<div class="form-group"	>
 				<textarea name="content" rows="15" class="form-control" placeholder="내용을 입력하세요">${boardMap['board'].content }</textarea>
 			</div>
-			<div class="form-group"	>
-			
-			</div>
-
-
-				
-
 
 			<span>첨부</span>
 			<div id="fileList">

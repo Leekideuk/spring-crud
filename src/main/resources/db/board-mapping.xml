@@ -83,10 +83,6 @@
 		delete from board_file_tb where board_file_id = #{fileId}
 	</delete>
 	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from board_tb
-	</select>
-	
 	<select id="getSearchTotalCount" resultType="int">
 		select count(*) from board_tb
 		where 
@@ -101,4 +97,9 @@
 			</if>
 		order by board_id desc
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from board_tb
+	</select>
+	
 </mapper>

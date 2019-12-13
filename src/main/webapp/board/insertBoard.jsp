@@ -100,7 +100,7 @@
 		html += "	</td>";
 		html += "</tr>";
 		
-		$('#fileTableTbody').append(html);
+		$('#fileZone').append(html);
 	}
 	
 	// 업로드 파일 삭제
@@ -171,7 +171,7 @@
 			<div class="form-group">
 				<textarea name="content" rows="15" class="form-control" placeholder="내용을 입력하세요"></textarea>
 			</div>
-			<div id="fileTableTbody">
+			<div id="fileZone">
 				<div id="dropZone" style="height:100px;">
 						파일을 드래그 하세요
 				</div>

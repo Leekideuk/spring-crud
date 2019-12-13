@@ -5,11 +5,7 @@ public class Criteria {
 	private int pageScale;		// 페이지 당 게시물 수
 	private int blockScale;		// 화면 당 페이지 수
 	
-	public Criteria() {
-		this.curPage = 1;
-		this.pageScale = 5;
-		this.blockScale = 5;
-	}
+	public Criteria() {}
 	
 	// Getter/Setter
 	public int getCurPage() {
