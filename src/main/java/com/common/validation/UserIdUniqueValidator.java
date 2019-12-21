@@ -13,9 +13,7 @@ public class UserIdUniqueValidator implements ConstraintValidator<UserIdUnique, 
 	private UserService userService;
 	
 	@Override
-	  public void initialize(UserIdUnique userIdUnique) {
-		
-	}
+	public void initialize(UserIdUnique userIdUnique) {}
 	
 	@Override
 	public boolean isValid(String userId, ConstraintValidatorContext context) {

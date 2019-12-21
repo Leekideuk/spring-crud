@@ -20,7 +20,7 @@
 				<li>번호 ${boardMap.board.boardId }&nbsp;</li>
 			</ul>
 			<pre>${boardMap['board'].title }</pre>
-			<pre>${boardMap['board'].content }</pre>
+			<pre style="min-height:200px;">${boardMap['board'].content }</pre>
 			<span>첨부</span>
 			<c:forEach var="file" items="${boardMap['boardFileList']}" varStatus="status">
 				<div><a href="fileDownload.do?fileId=${file.fileId }">${file.fileName}</a>${file.sizeToString()}</div>
@@ -110,7 +110,7 @@ function getCommentList(curCommentPage){
 				html += "<div class='comment' style='width:100%; display:inline-block; margin-left:"+20*comment.depth+"px'>";
 				if(comment.deleteFlag == false){
 				html += "<font size='2em'>"+comment.userId+"<span style='cursor:pointer;' onclick='setDeleteFlagTrue(this,"+comment.commentId+");'> [삭제]</span></font>";}
- 				html += "<p>depth"+comment.depth+":::order"+comment.order+":::parentId"+comment.parentId+":::commentId"+comment.commentId+"</P>"
+ 				/* html += "<p>depth"+comment.depth+":::order"+comment.order+":::parentId"+comment.parentId+":::commentId"+comment.commentId+"</P>" */
 				html += "<div class='comment"+comment.commentId+"' style='cursor:pointer; width:80%;' onclick='getCommentForm(this);'><pre>"+comment.content+"</pre></div>";
 				html += "<div></div>";
 				html += "<input type='hidden' name='commentId' value="+comment.commentId+" />";

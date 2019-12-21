@@ -31,7 +31,4 @@
 		</property>
 	</bean>
 	
-	<!-- custom annotation -->
-	<bean class="com.common.validation.UserIdUniqueValidator"/>
-	
 </beans>

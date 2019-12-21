@@ -21,6 +21,9 @@ public interface UserService {
 	// 아이디 중복 확인
 	boolean existUserId(String userId);
 	
+	// 이메일 중복 확인
+	boolean existEmail(String email);
+	
 	// 회원 목록 조회
 	List<UserVO> getUserList(UserVO vo);
 }

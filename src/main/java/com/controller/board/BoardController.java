@@ -56,7 +56,7 @@ public class BoardController {
 		
 		// 로그아웃 상태에서 글 등록 불가.
 		if(session.getAttribute("user") == null){
-			map.put("location", "main.do");
+			map.put("location", "login.do");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
 		

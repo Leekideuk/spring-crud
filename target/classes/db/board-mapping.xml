@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--  mysql db, table은 대소문자 구분함 -->
 <mapper namespace="BoardDAO">
 	<resultMap type="board" id="boardResult">
 		<id property="boardId"			column="board_id"/>

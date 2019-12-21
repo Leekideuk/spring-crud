@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import com.common.annotation.UserEmailUnique;
 import com.common.annotation.UserIdUnique;
 
 public class UserVO {
@@ -15,6 +16,7 @@ public class UserVO {
 	private Date regDate;
 	private int role;
 	@Pattern(regexp="^[_0-9a-zA-Z-]+@[0-9a-zA-Z]+(.[_0-9a-zA-Z-]+)*$")
+	@UserEmailUnique
 	private String email;
 	private String phone;
 	

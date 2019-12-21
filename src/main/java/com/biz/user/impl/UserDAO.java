@@ -45,8 +45,14 @@ public class UserDAO {
 	
 	// userId 중복 확인
 	public int existUserId(String userId){
-		System.out.println("===> userDAO.existUerId");
+		System.out.println("===> UserDAO.existUerId()");
 		return mybatis.selectOne("UserDAO.existUserId", userId);
+	}
+	
+	// email 중복 확인
+	public int existEmail(String email){
+		System.out.println("===> UserDAO.existEmail()");
+		return mybatis.selectOne("UserDAO.existEmail", email);
 	}
 	
 	

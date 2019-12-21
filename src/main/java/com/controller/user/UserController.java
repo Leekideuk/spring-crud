@@ -19,13 +19,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	// 메인화면
-	@RequestMapping("/main.do")
-	public String mainView(){
-		
-		return "mainPage.jsp"; 
-	}
-	
 	// 회원가입
 	@RequestMapping(value="/signup.do", method=RequestMethod.GET)
 	public String signupView(HttpSession session, @ModelAttribute("user") UserVO vo){
@@ -66,9 +59,10 @@ public class UserController {
 	@RequestMapping("/mypage.do")
 	public String mypageView(HttpSession session, HttpServletResponse response){
 		if( session.getAttribute("user") == null) { return "redirect:getBoardList.do"; }	// 로그아웃 상태에서 마이페이지 이동 불가.
+		// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@22
 		// a 로그인 -> a mypage -> a 로그아웃 -> b 로그인 -> 뒤로가기 -> a mypage -> b가 a정보 변경가능.
 		// 캐시 사용 안 하기.
-		// @@@ WebContentInterceptor로 바꾸기.
+		// WebContentInterceptor
 		response.setHeader("Cache-Control","no-store"); 
 		return "user/mypage.jsp";
 	}

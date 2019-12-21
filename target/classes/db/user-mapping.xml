@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--  mysql db, table은 대소문자 구분함 -->
 <mapper namespace="UserDAO">
 	<resultMap type="user" id="userResult">
 		<id property="userId" column="user_id"/>
@@ -42,6 +41,13 @@
 	<select id="existUserId" resultType="int">
 		select count(*) from user_tb where user_id = #{userId}
 	</select>
+	
+	<!-- email 중복 확인 -->
+	<select id="existEmail" resultType="int">
+		select count(*) from user_tb where email = #{email}
+	</select>
+	
+	
 	
 	
 	<select id="getUserList" resultMap="userResult">

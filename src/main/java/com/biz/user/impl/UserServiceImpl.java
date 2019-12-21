@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
@@ -51,7 +51,12 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 	
-	
+	// 이메일 중복 확인
+	@Override
+	public boolean existEmail(String email){
+		if(userDAO.existEmail(email) == 0) return false;
+		return true;
+	}
 	
 	
 	@Override
