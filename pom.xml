@@ -15,6 +15,18 @@
 	</properties>
 	
 	<dependencies>
+		<!-- Mail -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+	
 		<!-- Jackson2. json 데이터로 변환. -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

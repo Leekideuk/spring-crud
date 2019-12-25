@@ -55,7 +55,17 @@ public class UserDAO {
 		return mybatis.selectOne("UserDAO.existEmail", email);
 	}
 	
+	// 이메일 인증 키 일치 여부 체크
+	public int CheckEmailAuthKey(UserVO vo){
+		System.out.println("===> UserDAO.CheckEmailAuthKey()");
+		return mybatis.selectOne("UserDAO.checkEmailAuthKey", vo);
+	}
 	
+	// emailCert true로 변경
+	public void updateEmailCertTrue(UserVO vo){
+		System.out.println("===> UserDAO.updateEmailCertTrue()");
+		mybatis.update("UserDAO.updateEmailCertTrue", vo);
+	}
 	
 	
 	public List<UserVO> getUserList(UserVO vo){

@@ -6,6 +6,9 @@ public interface UserService {
 	// 회원 등록
 	void insertUser(UserVO vo);
 	
+	// 이메일 인증
+	void emailAuth(UserVO vo);
+	
 	// 로그인
 	UserVO login(UserVO vo);
 	

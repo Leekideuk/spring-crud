@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -86,7 +87,13 @@ public class BoardController {
 	
 	// 글 목록 조회
 	@RequestMapping(value="/getBoardList.do")
-	public String getBoardList(SearchVO search, @RequestParam(defaultValue="1") int curPage, Model model) {
+	public String getBoardList(SearchVO search, @RequestParam(defaultValue="1") int curPage, Model model, ServletRequest request) {
+		/* WebApplicationContext
+		WebApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();	// ContextLoaderListener 이용해서 생성한 WebApplicationContext
+		WebApplicationContext ctx2 = RequestContextUtils.getWebApplicationContext(request);	// DispatcherServlet 이용해서 생성한 WebApplicationContext
+  		ctx.hashCode() == ctx2.getParent().hashCode() == true
+		*/
+		
 		if(search.getSearchCondition() == null) search.setSearchCondition("TITLE");
 		if(search.getSearchKeyword() == null) search.setSearchKeyword("");
 

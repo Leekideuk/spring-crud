@@ -33,6 +33,13 @@ public class UserController {
 		return "redirect:getBoardList.do";
 	}
 	
+	// 회원가입 이메일 인증
+	@RequestMapping(value="emailAuth.do")
+	public String emailAuth(UserVO vo){
+		userService.emailAuth(vo);
+		return "redirect:login.do";
+	}
+	
 	// 로그인
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(HttpSession session){
@@ -43,7 +50,8 @@ public class UserController {
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	public String login(UserVO vo, HttpSession session){
 		UserVO user = userService.login(vo);
-		if(user == null){ return "user/login.jsp"; }
+		// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2 아이디 X or 비밀번호 X or 이메일 인증 X 상황에 따라 응답 달리하기.
+		if(user == null || user.isEmailCert() == false){ return "user/login.jsp"; }
 		session.setAttribute("user", user);
 		return "redirect:getBoardList.do";
 	}

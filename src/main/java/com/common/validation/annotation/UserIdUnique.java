@@ -1,4 +1,4 @@
-package com.common.annotation;
+package com.common.validation.annotation;
 
 import java.lang.annotation.*;
 import javax.validation.Constraint;

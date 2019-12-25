@@ -5,10 +5,10 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import com.common.annotation.UserEmailUnique;
-import com.common.annotation.UserIdUnique;
+import com.common.validation.annotation.UserEmailUnique;
+import com.common.validation.annotation.UserIdUnique;
 
-public class UserVO {
+public class UserVO {	
 	@UserIdUnique
 	private String userId;
 	@NotBlank
@@ -19,6 +19,8 @@ public class UserVO {
 	@UserEmailUnique
 	private String email;
 	private String phone;
+	private String emailAuthKey;
+	private boolean emailCert;
 	
 	public String getUserId() {
 		return userId;
@@ -57,13 +59,22 @@ public class UserVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getEmailAuthKey() {
+		return emailAuthKey;
+	}
+	public void setEmailAuthKey(String emailAuthKey) {
+		this.emailAuthKey = emailAuthKey;
+	}
+	public boolean isEmailCert() {
+		return emailCert;
+	}
+	public void setEmailCert(boolean emailCert) {
+		this.emailCert = emailCert;
+	}
 	@Override
 	public String toString() {
 		return "UserVO [userId=" + userId + ", password=" + password + ", regDate=" + regDate + ", role=" + role
-				+ ", email=" + email + ", phone=" + phone + "]";
+				+ ", email=" + email + ", phone=" + phone + ", emailAuthKey=" + emailAuthKey + ", emailCert="
+				+ emailCert + "]";
 	}
-	
-	
-	
-	
 }

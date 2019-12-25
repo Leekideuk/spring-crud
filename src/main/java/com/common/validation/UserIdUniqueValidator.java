@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.biz.user.UserService;
-import com.common.annotation.UserIdUnique;
+import com.common.validation.annotation.UserIdUnique;
 
 public class UserIdUniqueValidator implements ConstraintValidator<UserIdUnique, String> {
 	@Autowired

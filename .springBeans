@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/dispatcher-servlet.xml</config>
 		<config>src/main/resources/applicationContext.xml</config>
+		<config>src/main/resources/mail/mailContext.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

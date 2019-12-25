@@ -9,18 +9,17 @@
 		<result property="regDate" column="regDate"/>
 		<result property="role" column="role"/>
 		<result property="email" column="email"/>
-		<result property="phone1" column="phone1"/>
-		<result property="phone2" column="phone2"/>
-		<result property="phone3" column="phone3"/>
+		<result property="phone" column="phone"/>
+		<result property="emailCert" column="email_cert"/>
 	</resultMap>
 	
 	<insert id="insertUser">
-		INSERT INTO user_tb(USER_ID, PASSWORD, email, phone) 
-		VALUES(#{userId}, #{password}, #{email}, #{phone})
+		INSERT INTO user_tb(USER_ID, PASSWORD, email, phone, email_auth_key)
+		VALUES(#{userId}, #{password}, #{email}, #{phone}, #{emailAuthKey})
 	</insert>
 	
 	<select id="getLoginResult" resultMap="userResult">
-		select user_id, regDate, email, phone from user_tb where user_id = #{userId} and password = #{password}
+		select user_id, regDate, email, phone, email_cert from user_tb where user_id = #{userId} and password = #{password}
 	</select>
 	
 	<delete id="deleteUser">
@@ -47,7 +46,14 @@
 		select count(*) from user_tb where email = #{email}
 	</select>
 	
+	<!-- 이메일 인증 키 일치 여부 체크 -->
+	<select id="checkEmailAuthKey" resultType="int">
+		select count(*) from user_tb where user_id = #{userId} and email_auth_key = #{emailAuthKey}
+	</select>
 	
+	<update id="updateEmailCertTrue">
+		update user_tb set email_cert = true where user_id = #{userId}
+	</update>
 	
 	
 	<select id="getUserList" resultMap="userResult">
