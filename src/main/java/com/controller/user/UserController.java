@@ -91,4 +91,16 @@ public class UserController {
 		session.setAttribute("user", userService.updateUser(vo));
 		return "redirect:mypage.do";
 	}
+	
+	// 아이디, 비밀번호 찾기
+	@RequestMapping(value="/findUserInfo.do", method=RequestMethod.GET)
+	public String findUserInfo(){	
+		return "user/findUserInfo.jsp";
+	}
+	
+	@RequestMapping(value="/findUserInfo.do", method=RequestMethod.POST)
+	public String findUserInfo(UserVO vo){
+		userService.findUserInfo(vo);
+		return "redirect:login.do";
+	}
 }

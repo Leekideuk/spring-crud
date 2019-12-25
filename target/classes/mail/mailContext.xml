@@ -5,6 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 	
+	<bean id="mailAddress" class="java.lang.String">
+		<constructor-arg value="${mail.username}"/>
+	</bean>
+	
 	<bean class="com.common.mail.MailHandler"/>
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

@@ -27,6 +27,9 @@ public interface UserService {
 	// 이메일 중복 확인
 	boolean existEmail(String email);
 	
+	// 이메일 이용해서 아이디, 비밀번호 찾기
+	void findUserInfo(UserVO vo);
+	
 	// 회원 목록 조회
 	List<UserVO> getUserList(UserVO vo);
 }

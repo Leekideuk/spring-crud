@@ -55,6 +55,10 @@
 		update user_tb set email_cert = true where user_id = #{userId}
 	</update>
 	
+	<!-- 이메일 이용해서 아이디, 비밀번호 찾기 -->
+	<select id="findUserInfo" resultMap="userResult">
+		select user_id, password from user_tb where email=#{email}
+	</select>
 	
 	<select id="getUserList" resultMap="userResult">
 		SELECT * FROM user_tb

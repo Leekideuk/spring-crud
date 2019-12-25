@@ -21,7 +21,7 @@
       			<input type="submit" class="btn btn-default btn-block" value="로그인">
 	  		</div>
 	  		<div class="form-group" align="right">
-	  			<a href="#">아이디&#183;비밀번호 찾기</a>
+	  			<a href="findUserInfo.do">아이디&#183;비밀번호 찾기</a>
 	  		</div>
   		</div>
 	</form>

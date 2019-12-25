@@ -2,6 +2,8 @@ package com.biz.user.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 	@Autowired
 	MailHandler mailHandler;
+	@Resource(name="mailAddress")
+	String mailAddress;
 	
 	// 회원가입
 	@Override
@@ -35,7 +39,7 @@ public class UserServiceImpl implements UserService {
 					.append(vo.getEmailAuthKey())
 					.append("' target='_blank'>이메일 인증 확인</a>")
 					.toString());
-			mailHandler.setFrom("weguooo@gmail.com","Spring Board Test");
+			mailHandler.setFrom(mailAddress, "Spring Board Test");
 			mailHandler.setTo(vo.getEmail(), vo.getUserId());
 			mailHandler.send();
 		}catch(Exception e){
@@ -91,6 +95,33 @@ public class UserServiceImpl implements UserService {
 		if(userDAO.existEmail(email) == 0) return false;
 		return true;
 	}
+	
+	// 이메일 이용해서 아이디, 비밀번호 찾기
+	@Override
+	public void findUserInfo(UserVO vo){
+		UserVO user = userDAO.findUserInfo(vo);
+		if(user == null){
+			System.out.println("존재하지 않는 이메일 입니다.");
+			return;
+		}
+		
+		try{
+			mailHandler.setSubject("[Spring Test Test] 회원 정보");
+			mailHandler.setText(new StringBuffer().append("<h1>회원 정보</h1>")
+					.append("<p>아이디 : ")
+					.append(user.getUserId()+"</p>")
+					.append("<p>비밀번호 : ")
+					.append(user.getPassword()+"</p>")
+					.toString());
+			mailHandler.setFrom(mailAddress, "Spring Board Test");
+			mailHandler.setTo(vo.getEmail(), vo.getUserId());
+			mailHandler.send();
+		}catch(Exception e){
+			System.out.println("UserService.findUserInfo() ::: " + e);
+		}
+		
+	}
+	
 	
 	
 	@Override

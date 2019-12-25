@@ -67,6 +67,12 @@ public class UserDAO {
 		mybatis.update("UserDAO.updateEmailCertTrue", vo);
 	}
 	
+	// 이메일 이용해서 아이디, 비밀번호 찾기
+	public UserVO findUserInfo(UserVO vo){
+		System.out.println("===> UserDAO.findUserInfo()");
+		return mybatis.selectOne("UserDAO.findUserInfo", vo);
+	}
+	
 	
 	public List<UserVO> getUserList(UserVO vo){
 		System.out.println("===> UserDAO.getUserList()");
