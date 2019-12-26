@@ -31,10 +31,22 @@ public class UserDAO {
 		mybatis.delete("UserDAO.deleteUser", vo);
 	}
 	
-	// 회원 정보 수정
+	// 개인 정보 수정
 	public void updateUser(UserVO vo){
 		System.out.println("===> UserDAO.updateUser()");
 		mybatis.update("UserDAO.updateUser", vo);
+	}
+	
+	// 이메일 수정
+	public void updateUserEmail(UserVO vo){
+		System.out.println("===> UserDAO.updateUserEmail()");
+		mybatis.update("UserDAO.updateUserEmail", vo);
+	}
+	
+	// 비밀번호 수정
+	public void updateUserPassword(UserVO vo){
+		System.out.println("===> UserDAO.updateUserPassword()");
+		mybatis.update("UserDAO.updateUserPassword", vo);
 	}
 	
 	// 회원 정보 조회

@@ -18,12 +18,8 @@
 				<input type="hidden" name="userId" value="${user.userId }">
 			</div>
 			<div class="form-group"	>
-				<p>비밀번호</p>
-				<input type="password" name="password" class="form-control">
-			</div>
-			<div class="form-group"	>
 				<p>이메일</p>
-				<input type="email" name="email" value="${user.email }" class="form-control">
+				<span class="form-control">${user.email }</span>
 			</div>
 			<div class="form-group"	>
 				<p>핸드폰</p>
@@ -41,5 +37,11 @@
 		</div>
 	</form>
 	</div>
+	
+	<div class="container" align="center">
+		<a href="updateUserEmail.do">[이메일 변경] </a>
+		<a href="updateUserPassword.do">[비밀번호 변경]</a>
+	</div>
+	
 </body>
 </html>

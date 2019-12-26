@@ -8,15 +8,18 @@ import com.biz.user.impl.UserDAO;
 import com.common.mail.MailHandler;
 
 public class Test {
+	static AbstractApplicationContext container = new GenericXmlApplicationContext("applicationContext.xml");
+	
 	public static void main(String[] args){
 		
-		AbstractApplicationContext container = new GenericXmlApplicationContext("applicationContext.xml");
+		
 		MailHandler mh = (MailHandler) container.getBean("com.common.mail.MailHandler#0");
 		
 		UserDAO dao = (UserDAO) container.getBean("userDAO");
 		UserVO vo = new UserVO();
-		vo.setEmail("5260015@naver.coms");
-		System.out.println(dao.findUserInfo(vo));
+		vo.setUserId("5260015");
+		vo.setPassword("1234");
+		dao.updateUserPassword(vo);
 		
 	}
 	

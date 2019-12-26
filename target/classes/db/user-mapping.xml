@@ -26,8 +26,21 @@
 		delete from user_tb WHERE USER_ID = #{userId}
 	</delete>
 	
+	<!-- 개인정보 수정 -->
 	<update id="updateUser">
-		update user_tb set password=#{password}, email=#{email}, phone=#{phone} 
+		update user_tb set phone=#{phone} 
+		where user_id=#{userId}
+	</update>
+	
+	<!-- 이메일 수정 -->
+	<update id="updateUserEmail">
+		update user_tb set email=#{email}, email_auth_key=#{emailAuthKey}, email_cert=false
+		where user_id=#{userId}
+	</update>
+	
+	<!-- 비밀번호 수정 -->
+	<update id="updateUserPassword">
+		update user_tb set password=#{password}
 		where user_id=#{userId}
 	</update>
 	

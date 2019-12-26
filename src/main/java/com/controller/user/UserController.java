@@ -1,23 +1,35 @@
 package com.controller.user;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
+import com.common.validation.UpdateUserEmailValidator;
 
 @Controller
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MessageSource messageSource;
 	
 	// 회원가입
 	@RequestMapping(value="/signup.do", method=RequestMethod.GET)
@@ -33,7 +45,7 @@ public class UserController {
 		return "redirect:getBoardList.do";
 	}
 	
-	// 회원가입 이메일 인증
+	// 이메일 인증
 	@RequestMapping(value="emailAuth.do")
 	public String emailAuth(UserVO vo){
 		userService.emailAuth(vo);
@@ -84,12 +96,52 @@ public class UserController {
 		return "redirect:getBoardList.do";
 	}
 	
-	// 회원정보수정
+	// 개인정보수정
 	@RequestMapping("/updateUser.do")
 	public String updateUser(UserVO vo, HttpSession session){
-		if( session.getAttribute("user") == null) { return "redirect:getBoardList.do"; }	// 로그아웃 상태에서 회원수정 불가.
+		if( session.getAttribute("user") == null) { return "redirect:login.do"; }	// 로그아웃 상태에서 회원수정 불가.
 		session.setAttribute("user", userService.updateUser(vo));
 		return "redirect:mypage.do";
+	}
+	
+	// 이메일 변경
+	@RequestMapping(value="/updateUserEmail.do", method=RequestMethod.GET)
+	public String updateUserEmail(HttpSession session){
+		if( session.getAttribute("user") == null) { return "redirect:login.do"; }	// 로그아웃 상태에서 이메일 수정 불가.
+		return "user/updateUserEmail.jsp";
+	}
+	
+	@RequestMapping(value="/updateUserEmail.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> updateUserEmail(UserVO vo, BindingResult brs){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 이메일 유효성 체크.
+		new UpdateUserEmailValidator().validate(vo, brs, userService);
+		if(brs.hasErrors()){
+			List<FieldError> errors = brs.getFieldErrors();
+		    for (FieldError error : errors ) {
+		        map.put(error.getField(), messageSource.getMessage(error, null));
+		    }
+		    return new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		userService.updateUserEmail(vo);
+		map.put("location", "logout.do");
+		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}
+	
+	// 비밀번호 변경
+	@RequestMapping(value="/updateUserPassword.do", method=RequestMethod.GET)
+	public String updateUserPassword(HttpSession session){
+		if( session.getAttribute("user") == null) { return "redirect:login.do"; }	// 로그아웃 상태에서 비밀번호 수정 불가.
+		return "user/updateUserPassword.jsp";
+	}
+	
+	@RequestMapping(value="/updateUserPassword.do", method=RequestMethod.POST)
+	public String updateUserPassword(UserVO vo){
+		userService.updateUserPassword(vo);
+		return "redirect:logout.do";
 	}
 	
 	// 아이디, 비밀번호 찾기
