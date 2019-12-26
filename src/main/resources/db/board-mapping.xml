@@ -19,6 +19,7 @@
 		<result property="realName" 	column="realname"/>
 		<result property="fileSize" 	column="filesize"/>
 		<result property="path"			column="path"/>
+		<result property="userId"		column="user_id"/>
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">
@@ -30,8 +31,8 @@
 	</insert>
 	
 	<insert id="insertBoardFile" parameterType="file">
-		insert into board_file_tb(board_id, filename, realname, filesize, path)
-		values(#{parentId}, #{fileName}, #{realName}, #{fileSize}, #{path})
+		insert into board_file_tb(board_id, filename, realname, filesize, path, user_id)
+		values(#{parentId}, #{fileName}, #{realName}, #{fileSize}, #{path}, #{userId})
 	</insert>
 
 	<select id="getBoardList"  resultMap="boardResult">
@@ -58,6 +59,11 @@
 	<select id="getBoardFileList" parameterType="int" resultMap="fileResult">
 		select * from board_file_tb
 		where board_id = #{parentId}
+	</select>
+	
+	<select id="getBoardFileListByUserId" parameterType="String" resultMap="fileResult">
+		select * from board_file_tb
+		where user_id = #{userId}
 	</select>
 	
 	<select id="getBoardFile" parameterType="int" resultMap="fileResult">

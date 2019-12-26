@@ -7,6 +7,7 @@ public class FileVO {
 	private String realName;	// realname
 	private long fileSize;	// filesize
 	private String path;	// path
+	private String userId;	// user_id
 	
 	public int getFileId() {
 		return fileId;
@@ -44,11 +45,17 @@ public class FileVO {
 	public void setPath(String path) {
 		this.path = path;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	
 	@Override
 	public String toString() {
 		return "FileVO [fileId=" + fileId + ", parentId=" + parentId + ", fileName=" + fileName + ", realName="
-				+ realName + ", fileSize=" + fileSize + ", path=" + path + "]";
+				+ realName + ", fileSize=" + fileSize + ", path=" + path + ", userId=" + userId + "]";
 	}
 	public String sizeToString() {
 	       Integer unit = 1024;

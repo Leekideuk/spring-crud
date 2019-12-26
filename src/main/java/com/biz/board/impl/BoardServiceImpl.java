@@ -33,6 +33,7 @@ public class BoardServiceImpl implements BoardService{
 		try{
 			int boardId = boardDAO.insertBoard(board);
 			for (FileVO file : fileList){
+				file.setUserId(board.getUserId());
 				file.setParentId(boardId);
 				boardDAO.insertBoardFile(file);
 			}

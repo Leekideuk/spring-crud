@@ -7,15 +7,20 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.biz.board.impl.BoardDAO;
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
 import com.common.mail.MailHandler;
 import com.common.mail.TempKey;
+import com.common.util.FileUtil;
+import com.common.vo.FileVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private BoardDAO boardDAO;
 	@Autowired
 	MailHandler mailHandler;
 	@Resource(name="mailAddress")
@@ -37,10 +42,15 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getLoginResult(vo);
 	}
 	
-	//회원탈퇴
+	// 회원탈퇴.
 	@Override
 	public void deleteUser(UserVO vo) {
+		List<FileVO> fileList = boardDAO.getBoardFileListByUserId(vo.getUserId());
 		userDAO.deleteUser(vo);
+		// 서버에 업로드한 파일 삭제.
+		for(FileVO file : fileList){
+			FileUtil.deleteFile(file);
+		}
 	}
 	
 	// 개인정보수정. 변경된 정보 반환.

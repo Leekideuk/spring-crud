@@ -53,6 +53,12 @@ public class BoardDAO {
 		return mybatis.selectList("BoardDAO.getBoardFileList", boardId); 
 	}
 	
+	// 파일 리스트 조회 by userId
+	public List<FileVO> getBoardFileListByUserId(String userId){
+		System.out.println("===>BoardDAO.getBoardFileListByUserId()");
+		return mybatis.selectList("BoardDAO.getBoardFileListByUserId", userId);
+	}
+	
 	// 조회수 증가
 	public void increaseCnt(BoardVO vo){
 		System.out.println("===>BoardDAO.increaseCnt()");
