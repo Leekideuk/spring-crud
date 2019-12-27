@@ -40,11 +40,24 @@ $(document).ready(function(){
 			url : "updateBoard.do",
 			type : "post",
 			data : json_str,
-			dataType : "text",
+			dataType : "json",
 			contentType : "application/json; charset=utf-8",
 			success : function(result){
 				alert("수정완료");
-				location.href="getBoard.do?boardId=${boardMap['board'].boardId }"
+				location.href=result.location;
+			},
+			// BoardServiceImpl.updateBoard() 트랜잭션 발생 시 DataIntegrityViolationException 테스트
+			error : function(result){
+				if(result.status == 400){
+					var resultJson = result.responseJSON;
+					$(".error_span").html("");
+					for(var key in resultJson){
+						$("#error_"+key).html(resultJson[key]);
+					}
+				}else{
+					alert(result.responseText);
+				}
+				
 			}
 		});
 	});
@@ -65,9 +78,11 @@ $(document).ready(function(){
 			</ul>
 			<div class="form-group"	>
 				<input name="title" type="text" value="${boardMap['board'].title }" class="form-control" placeholder="제목을 입력하세요."/>
+				<span id="error_title" class="error_span"></span>
 			</div>
 			<div class="form-group"	>
 				<textarea name="content" rows="15" class="form-control" placeholder="내용을 입력하세요">${boardMap['board'].content }</textarea>
+				<span id="error_content" class="error_span"></span>
 			</div>
 
 			<span>첨부</span>

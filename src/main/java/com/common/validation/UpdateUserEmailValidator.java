@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
 
+// 이메일 변경
 public class UpdateUserEmailValidator implements Validator {
 	@Override
 	public boolean supports(Class<?> clazz) {

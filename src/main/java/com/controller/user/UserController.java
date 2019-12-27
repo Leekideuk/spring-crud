@@ -1,7 +1,6 @@
 package com.controller.user;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +8,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +26,6 @@ import com.common.validation.UpdateUserEmailValidator;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private MessageSource messageSource;
 	
 	// 회원가입
 	@RequestMapping(value="/signup.do", method=RequestMethod.GET)
@@ -113,18 +109,12 @@ public class UserController {
 	
 	@RequestMapping(value="/updateUserEmail.do", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> updateUserEmail(UserVO vo, BindingResult brs){
+	public ResponseEntity<Map<String, Object>> updateUserEmail(UserVO vo, BindingResult brs) throws MethodArgumentNotValidException{
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		// 이메일 유효성 체크.
 		new UpdateUserEmailValidator().validate(vo, brs, userService);
-		if(brs.hasErrors()){
-			List<FieldError> errors = brs.getFieldErrors();
-		    for (FieldError error : errors ) {
-		        map.put(error.getField(), messageSource.getMessage(error, null));
-		    }
-		    return new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
-		}
+		if(brs.hasErrors()){ throw new MethodArgumentNotValidException(null, brs); }
 		
 		userService.updateUserEmail(vo);
 		map.put("location", "logout.do");

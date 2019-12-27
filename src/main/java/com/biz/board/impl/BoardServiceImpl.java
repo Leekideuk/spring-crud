@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,9 @@ public class BoardServiceImpl implements BoardService{
 		List<FileVO> fileList = FileUtil.saveAllFiles(path ,board.getUploadFile());
 		try{
 			int boardId = boardDAO.insertBoard(board);
+			String userId = board.getUserId();
 			for (FileVO file : fileList){
-				file.setUserId(board.getUserId());
+				file.setUserId(userId);
 				file.setParentId(boardId);
 				boardDAO.insertBoardFile(file);
 			}
@@ -77,6 +79,8 @@ public class BoardServiceImpl implements BoardService{
 			board.setBoardId( Integer.parseInt( (String) map.get("boardId") ));
 			board.setTitle((String) map.get("title"));
 			board.setContent((String) map.get("content"));
+			// 트랜잭션 및 예외처리 테스트
+			//board.setContent(null);
 			boardDAO.updateBoard(board);
 			
 			@SuppressWarnings("unchecked")
@@ -88,6 +92,8 @@ public class BoardServiceImpl implements BoardService{
 				// 서버에 저장된 파일 삭제
 				FileUtil.deleteFile(file);
 			}
+		}catch(DataIntegrityViolationException e){
+			throw new DataIntegrityViolationException("BoardServiceImpl.updateBoard()");
 		}catch(Exception e){
 			System.out.println("BoardServiceImpl.updateBoard() : " + e);
 		}
