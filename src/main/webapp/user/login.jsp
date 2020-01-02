@@ -1,3 +1,4 @@
+<%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,7 +27,15 @@
   		</div>
 	</form>
 	</div>
-	
+
+<script>
+	var isError = ${requestScope.error != null}; 
+	if(isError){
+		$(document).ready(function(){
+			alert("${requestScope.error}");
+		});
+	}
+</script>
 	
 </body>
 </html>

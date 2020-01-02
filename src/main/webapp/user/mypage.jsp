@@ -14,12 +14,12 @@
 		<div class="col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4">
 			<div class="form-group"	>
 				<p>아이디</p>
-				<span class="form-control">${sessionScope.user.userId }</span>
-				<input type="hidden" name="userId" value="${user.userId }">
+				<span class="form-control">${pageContext.request.userPrincipal.name}</span>
+				<input type="hidden" name="userId" value="${pageContext.request.userPrincipal.name}">
 			</div>
 			<div class="form-group"	>
 				<p>이메일</p>
-				<span class="form-control">${user.email }</span>
+				<span class="form-control">${requestScope.user.email }</span>
 			</div>
 			<div class="form-group"	>
 				<p>핸드폰</p>

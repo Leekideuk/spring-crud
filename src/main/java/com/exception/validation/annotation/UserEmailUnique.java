@@ -1,4 +1,4 @@
-package com.common.validation.annotation;
+package com.exception.validation.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.common.validation.UserEmailUniqueValidator;
+import com.exception.validation.annotation.impl.UserEmailUniqueValidator;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

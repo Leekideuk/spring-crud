@@ -125,7 +125,7 @@
 	<div class="container" style="padding-top: 10px;">
 	<form id="uploadForm" action="insertBoard.do" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<div class="col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-md-8 col-sm-8 col-xs-8">
-			<input name="userId" type="hidden" value="${sessionScope.user.userId }"/>
+			<input name="userId" type="hidden" value="${pageContext.request.userPrincipal.name}"/>
 			<div class="form-group"	>
 				<input type="text" name="title" class="form-control" placeholder="제목을 입력하세요."/>
 			</div>

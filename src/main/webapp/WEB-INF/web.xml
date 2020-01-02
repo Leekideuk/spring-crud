@@ -28,7 +28,16 @@
   	<filter-name>characterEncoding</filter-name>
   	<url-pattern>*.do</url-pattern>
   </filter-mapping>
-
+  
+<!--   <filter>
+  	<filter-name>localeFilter</filter-name>
+  	<filter-class>com.config.security.filter.LocaleFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>localeFilter</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping> -->
+  
 <!-- DispatcherServlet 등록 -->
   <servlet>
     <servlet-name>dispatcher</servlet-name>

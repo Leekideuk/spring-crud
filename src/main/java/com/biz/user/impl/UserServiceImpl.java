@@ -5,14 +5,15 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.biz.board.impl.BoardDAO;
 import com.biz.user.UserService;
 import com.biz.user.UserVO;
 import com.common.mail.MailHandler;
-import com.common.mail.TempKey;
 import com.common.util.FileUtil;
+import com.common.util.TempKey;
 import com.common.vo.FileVO;
 
 @Service("userService")
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
 	MailHandler mailHandler;
 	@Resource(name="mailAddress")
 	String mailAddress;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	// 회원가입
 	@Override
@@ -32,32 +35,24 @@ public class UserServiceImpl implements UserService {
 		String authKey = new TempKey().getKey(20, false);
 		vo.setEmailAuthKey(authKey);
 		userDAO.inserUser(vo);
-		
 		sendAuthMail(vo);
-	}
-	
-	// 로그인
-	@Override
-	public UserVO login(UserVO vo){
-		return userDAO.getLoginResult(vo);
 	}
 	
 	// 회원탈퇴.
 	@Override
-	public void deleteUser(UserVO vo) {
-		List<FileVO> fileList = boardDAO.getBoardFileListByUserId(vo.getUserId());
-		userDAO.deleteUser(vo);
+	public void deleteUser(String userId) {
+		List<FileVO> fileList = boardDAO.getBoardFileListByUserId(userId);
+		userDAO.deleteUser(userId);
 		// 서버에 업로드한 파일 삭제.
 		for(FileVO file : fileList){
 			FileUtil.deleteFile(file);
 		}
 	}
 	
-	// 개인정보수정. 변경된 정보 반환.
+	// 개인정보수정.
 	@Override
-	public UserVO updateUser(UserVO vo) {
+	public void updateUser(UserVO vo) {
 		userDAO.updateUser(vo);
-		return userDAO.getUser(vo);
 	}
 	
 	// 이메일수정
@@ -77,8 +72,8 @@ public class UserServiceImpl implements UserService {
 	
 	// 회원정보조회
 	@Override
-	public UserVO getUser(UserVO vo) {
-		return userDAO.getUser(vo);
+	public UserVO getUser(String userId) {
+		return userDAO.getUser(userId);
 	}
 
 	// 아이디 중복 확인.
@@ -103,6 +98,11 @@ public class UserServiceImpl implements UserService {
 			System.out.println("존재하지 않는 이메일 입니다.");
 			return;
 		}
+		
+		String tempPassword = new TempKey().getKey(10, false);
+		user.setPassword(passwordEncoder.encode(tempPassword));
+		userDAO.updateUserPassword(user);
+		user.setPassword(tempPassword);
 		
 		try{
 			mailHandler.setSubject("[Spring Test Test] 회원 정보");
@@ -157,7 +157,4 @@ public class UserServiceImpl implements UserService {
 	public List<UserVO> getUserList(UserVO vo) {
 		return userDAO.getUserList(vo);
 	}
-
-	
-
 }

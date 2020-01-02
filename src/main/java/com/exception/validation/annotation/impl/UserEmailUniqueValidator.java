@@ -1,4 +1,4 @@
-package com.common.validation;
+package com.exception.validation.annotation.impl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.biz.user.UserService;
-import com.common.validation.annotation.UserEmailUnique;
+import com.exception.validation.annotation.UserEmailUnique;
 
 public class UserEmailUniqueValidator implements ConstraintValidator<UserEmailUnique, String> {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ UserEmailUniqueValidator 클래스는 스프링 컨테이너에 빈 등록 안 했는데 DI 어떻게 가능???

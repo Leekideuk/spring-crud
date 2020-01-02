@@ -1,4 +1,4 @@
-package com.common.validation;
+package com.exception.validation;
 
 import java.util.HashMap;
 
@@ -21,10 +21,10 @@ public class UpdateBoardValidator implements Validator {
 		String content = (String) map.get("content");
 
 		if(title == null || title.trim().isEmpty()){
-			errors.rejectValue("title", "UpdateBoardValidator.title.empty");
+			errors.rejectValue("title", "UpdateBoardValidator.title.blank");
 		}
 		if(content == null || content.trim().isEmpty()){
-			errors.rejectValue("content", "UpdateBoardValidator.content.empty");
+			errors.rejectValue("content", "UpdateBoardValidator.content.blank");
 		}
 	}
 }

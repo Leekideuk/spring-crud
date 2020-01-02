@@ -47,8 +47,8 @@
 			
 			<div>
 				<ul class="list-inline navbar-right">
-					<li><input type="button" class="btn btn-default" onclick="location.href='updateBoard.do?boardId=${boardMap['board'].boardId }'" value="수정"/></li>
-					<li><input type="button" class="btn btn-default" onclick="location.href='deleteBoard.do?boardId=${boardMap['board'].boardId }'" value="삭제"/></li>
+					<li><input type="button" class="btn btn-default" onclick="location.href='updateBoard.do?boardId=${boardMap['board'].boardId }&userId=${boardMap.board.userId }'" value="수정"/></li>
+					<li><input type="button" class="btn btn-default" onclick="location.href='deleteBoard.do?boardId=${boardMap['board'].boardId }&userId=${boardMap.board.userId }'" value="삭제"/></li>
 				</ul>
 			</div>
 		</div>
@@ -81,6 +81,9 @@ function insertComment(btnThis){
 	var json_str = JSON.stringify(json);
 	$("#boardText").val("");
 	$.ajax({
+		beforeSend : function(xhr){
+			xhr.setRequestHeader("AJAX",true);
+		},
 		url : "insertComment.do",
 		data : json_str,
 		dataType : "text",
@@ -90,9 +93,15 @@ function insertComment(btnThis){
 			getCommentList(page);
 		},
 		error:function(result, status, error){
-			console.log(error);
-			alert("로그인 하세요.");
-			location.href="login.do";
+			if (result.status == 401) {
+	            alert("401");
+	        } else if (result.status == 403) {
+	        	if(confirm("로그인 ???")){
+	        		location.replace("/login.do");
+	        	}
+	        } else {
+	            alert("예외 발생");
+	        }
 		}
 	});
 }
@@ -109,7 +118,7 @@ function getCommentList(curCommentPage){
 				var comment = result.commentList[key];
 				html += "<div class='comment' style='width:100%; display:inline-block; margin-left:"+20*comment.depth+"px'>";
 				if(comment.deleteFlag == false){
-				html += "<font size='2em'>"+comment.userId+"<span style='cursor:pointer;' onclick='setDeleteFlagTrue(this,"+comment.commentId+");'> [삭제]</span></font>";}
+				html += "<font size='2em'>"+comment.userId+"<span style='cursor:pointer;' onclick='setDeleteFlagTrue(this,"+comment.commentId+",\""+comment.userId+"\");'> [삭제]</span></font>";}
  				/* html += "<p>depth"+comment.depth+":::order"+comment.order+":::parentId"+comment.parentId+":::commentId"+comment.commentId+"</P>" */
 				html += "<div class='comment"+comment.commentId+"' style='cursor:pointer; width:80%;' onclick='getCommentForm(this);'><pre>"+comment.content+"</pre></div>";
 				html += "<div></div>";
@@ -165,22 +174,36 @@ function getCommentForm(commentThis){
 	}
 }
 
-function setDeleteFlagTrue(t, commentId){
-	commentId = "{\"commentId\":\""+commentId+"\"}";
+function setDeleteFlagTrue(t, commentId, userId){
+	var resData = {commentId : commentId, userId : userId};
+	resData = (JSON.stringify(resData));
 	$.ajax({
+ 		beforeSend : function(xhr){
+			xhr.setRequestHeader("AJAX",true);
+		},
 		type: "post",
 		url: "setDeleteFlagTrue.do",
-		data: commentId,
+		data: resData,
 		dataType: "text",
 		contentType : "application/json; charset=utf-8",
 		success: function(page, status){
 			getCommentList(page);
+		},
+		error : function(result){
+			if(result.status == 400){
+				alert("계정이 다름.");	
+			}else if (result.status == 401) {
+	            alert("401");
+	        }else if (result.status == 403) {
+	        	if(confirm("로그인 ???")){
+	        		location.replace("/login.do");
+	        	}
+	        }else {
+	            alert("예외 발생");
+	        }
 		}
 	});
 }
-
-
 </script>
-
 </body>
 </html>

@@ -31,7 +31,7 @@
 	<div class="container">
 		<div>이메일 변경</div>
 		<form id="updateEmailForm" >
-			<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+			<input type="hidden" name="userId" value="${pageContext.request.userPrincipal.name }"/>
 			<label>이메일 주소</label>
 			<input type="email" name="email"/>
 			

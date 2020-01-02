@@ -10,8 +10,8 @@
 	<%@ include file="/header.jsp" %>
 	<div class="container">
 		<div>비밀번호 변경</div>
-		<form action="" method="post" >
-			<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+		<form action="updateUserPassword.do" method="post" >
+			<input type="hidden" name="userId" value="${pageContext.request.userPrincipal.name }"/>
 			<label>비밀번호</label>
 			<input type="password" name="password"/>
 			<input type="submit" value="변경" class="btn btn-default"/>

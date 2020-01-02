@@ -19,16 +19,10 @@ public class UserDAO {
 		mybatis.insert("UserDAO.insertUser", vo);
 	}
 	
-	// 로그인 결과 반환
-	public UserVO getLoginResult(UserVO vo){
-		System.out.println("===> UserDAO.getLoginResult()");
-		return (UserVO) mybatis.selectOne("UserDAO.getLoginResult", vo);
-	}
-	
 	// 회원 탈퇴
-	public void deleteUser(UserVO vo){
+	public void deleteUser(String userId){
 		System.out.println("===> UserDAO.deleteUser()");
-		mybatis.delete("UserDAO.deleteUser", vo);
+		mybatis.delete("UserDAO.deleteUser", userId);
 	}
 	
 	// 개인 정보 수정
@@ -50,9 +44,9 @@ public class UserDAO {
 	}
 	
 	// 회원 정보 조회
-	public UserVO getUser(UserVO vo){
+	public UserVO getUser(String userId){
 		System.out.println("===> UserDAO.getUser()");
-		return (UserVO) mybatis.selectOne("UserDAO.getUser", vo);
+		return (UserVO) mybatis.selectOne("UserDAO.getUser", userId);
 	}
 	
 	// userId 중복 확인

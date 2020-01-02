@@ -1,10 +1,10 @@
-package com.common.validation.annotation;
+package com.exception.validation.annotation;
 
 import java.lang.annotation.*;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.common.validation.UserIdUniqueValidator;
+import com.exception.validation.annotation.impl.UserIdUniqueValidator;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

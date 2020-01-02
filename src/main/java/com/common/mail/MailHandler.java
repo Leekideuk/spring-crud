@@ -8,6 +8,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -48,6 +49,11 @@ public class MailHandler {
 	
 	@Async
 	public void send(){
-		mailSender.send(message);
+		try{
+			mailSender.send(message);
+		}catch(MailAuthenticationException e){
+			// 메일 인증 실패시 비동기 예외처리 하기. DB에 저장된 유저정보 삭제해야함.
+			System.out.println("MailHandler.send() ::: " + e);
+		}
 	}
 }

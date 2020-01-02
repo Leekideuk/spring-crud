@@ -12,11 +12,8 @@ public interface UserService {
 	// 이메일 인증
 	void emailAuth(UserVO vo);
 	
-	// 로그인
-	UserVO login(UserVO vo);
-	
 	// 개인정보 수정
-	UserVO updateUser(UserVO vo);
+	void updateUser(UserVO vo);
 	
 	// 이메일 수정
 	void updateUserEmail(UserVO vo);
@@ -25,10 +22,10 @@ public interface UserService {
 	void updateUserPassword(UserVO vo);
 	
 	// 회원 삭제
-	void deleteUser(UserVO vo);
+	void deleteUser(String userId);
 	
 	// 회원 조회
-	UserVO getUser(UserVO vo);
+	UserVO getUser(String userId);
 	
 	// 아이디 중복 확인
 	boolean existUserId(String userId);
