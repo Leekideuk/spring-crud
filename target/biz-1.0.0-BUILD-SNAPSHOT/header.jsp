@@ -3,16 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style>
 	body{
     	padding-top: 50px;
 	}
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $(function(){
 	$(".nav li").click(function(e){
@@ -34,18 +32,19 @@ $(function(){
       			<li><a href="insertBoard.do">글쓰기</a></li>
     		</ul>
     		<ul class="nav navbar-nav navbar-right">
-    			<c:if test="${sessionScope.user == null }">
+    			<c:if test="${pageContext.request.userPrincipal.name == null}">
       			<li><a href="signup.do">회원가입</a></li>
       			<li><a href="login.do">로그인</a></li>
       			</c:if>
-      			<c:if test="${sessionScope.user != null }">
+      			<c:if test="${pageContext.request.userPrincipal.name != null}">
       			<li><a href="logout.do">로그아웃</a></li>
       			</c:if>
     		</ul>
   		</div>
 	</nav>
-	<c:if test="${sessionScope.user != null }">
-	<h2 align="right" style="padding-right:10px"><a href="mypage.do">${sessionScope.user.userId }</a></h2>
+	<c:if test="${pageContext.request.userPrincipal.name != null}">
+	<h2 align="right" style="padding-right:10px"><a href="mypage.do">${pageContext.request.userPrincipal.name }</a></h2>
 	</c:if>
+	
 </body>
 </html>

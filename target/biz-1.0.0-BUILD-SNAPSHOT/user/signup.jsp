@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page import="java.util.Enumeration" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,7 @@
 			</div>
 			<div class="form-group"	>
 				<p>비밀번호</p>
-				<form:input path="password" class="form-control" placeholder="비밀번호를 입력하세요"/><form:errors path="password"/>
+				<form:input path="password" class="form-control" placeholder="비밀번호를 입력하세요" type="password"/><form:errors path="password"/>
 			</div>
 			<div class="form-group"	>
 				<p>이메일</p>

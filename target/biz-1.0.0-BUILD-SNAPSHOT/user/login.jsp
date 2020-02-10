@@ -1,18 +1,15 @@
+<%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>로그인</title><!-- 
-<style>
-	#center { position:absolute; top:50%; left:50%; width:300px; height:200px; overflow:hidden; background-color:#FC0; margin-top:-150px; margin-left:-100px;}
-</style> -->
-
+<title>로그인</title>
 </head>
 <body>
 	<%@ include file="/header.jsp" %>
-	<div class="container">
+	<div class="container" style="padding-top:10px;">
 	<form action="login.do" method="post" class="form-horizontal">
 		<div class="col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4">
 			<div class="form-group"	>
@@ -25,12 +22,20 @@
       			<input type="submit" class="btn btn-default btn-block" value="로그인">
 	  		</div>
 	  		<div class="form-group" align="right">
-	  			<a href="#">아이디&#183;비밀번호 찾기</a>
+	  			<a href="findUserInfo.do">아이디&#183;비밀번호 찾기</a>
 	  		</div>
   		</div>
 	</form>
 	</div>
-	
+
+<script>
+	var isError = ${requestScope.error != null}; 
+	if(isError){
+		$(document).ready(function(){
+			alert("${requestScope.error}");
+		});
+	}
+</script>
 	
 </body>
 </html>

@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--  mysql db, table은 대소문자 구분함 -->
 <mapper namespace="BoardDAO">
 	<resultMap type="board" id="boardResult">
 		<id property="boardId"			column="board_id"/>
@@ -20,6 +19,7 @@
 		<result property="realName" 	column="realname"/>
 		<result property="fileSize" 	column="filesize"/>
 		<result property="path"			column="path"/>
+		<result property="userId"		column="user_id"/>
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">
@@ -31,8 +31,8 @@
 	</insert>
 	
 	<insert id="insertBoardFile" parameterType="file">
-		insert into board_file_tb(board_id, filename, realname, filesize, path)
-		values(#{parentId}, #{fileName}, #{realName}, #{fileSize}, #{path})
+		insert into board_file_tb(board_id, filename, realname, filesize, path, user_id)
+		values(#{parentId}, #{fileName}, #{realName}, #{fileSize}, #{path}, #{userId})
 	</insert>
 
 	<select id="getBoardList"  resultMap="boardResult">
@@ -61,6 +61,11 @@
 		where board_id = #{parentId}
 	</select>
 	
+	<select id="getBoardFileListByUserId" parameterType="String" resultMap="fileResult">
+		select * from board_file_tb
+		where user_id = #{userId}
+	</select>
+	
 	<select id="getBoardFile" parameterType="int" resultMap="fileResult">
 		select * from board_file_tb
 		where board_file_id = #{fileId}
@@ -83,10 +88,6 @@
 		delete from board_file_tb where board_file_id = #{fileId}
 	</delete>
 	
-	<select id="getTotalCount" resultType="int">
-		select count(*) from board_tb
-	</select>
-	
 	<select id="getSearchTotalCount" resultType="int">
 		select count(*) from board_tb
 		where 
@@ -101,4 +102,9 @@
 			</if>
 		order by board_id desc
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from board_tb
+	</select>
+	
 </mapper>

@@ -91,6 +91,5 @@ function paging(page){
     	</ul>
 	</nav>
 	</div>
-	${paging }
 </body>
 </html>
